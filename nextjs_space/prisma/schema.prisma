@@ -1,0 +1,90 @@
+generator client {
+    provider = "prisma-client-js"
+    binaryTargets = ["native", "linux-musl-arm64-openssl-3.0.x"]
+    output = "/home/ubuntu/pet_jet_website/nextjs_space/node_modules/.prisma/client"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model PartnershipApplication {
+  id                String   @id @default(cuid())
+  companyName       String
+  name              String
+  email             String
+  phone             String?
+  partnershipInterest String
+  message           String   @db.Text
+  status            String   @default("new") // new, contacted, qualified, converted
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([email])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model ContactSubmission {
+  id                String   @id @default(cuid())
+  companyName       String
+  name              String
+  title             String?
+  email             String
+  phone             String?
+  serviceInterest   String?
+  companyStage      String?
+  message           String   @db.Text
+  preferredContact  String?
+  hearAboutUs       String?
+  status            String   @default("new")
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([email])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model ProductEvaluation {
+  id                String   @id @default(cuid())
+  companyName       String
+  contactName       String
+  email             String
+  phone             String?
+  productName       String
+  productCategory   String
+  evaluationType    String   // pre-launch, post-launch, market-positioning
+  productDescription String  @db.Text
+  specificQuestions  String?  @db.Text
+  timeline          String?
+  status            String   @default("new")
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([email])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model JoeyBooking {
+  id                String   @id @default(cuid())
+  name              String
+  organization      String?
+  email             String
+  phone             String?
+  eventType         String   // speaking-engagement, judging, consulting, product-review
+  eventDate         String?
+  eventLocation     String?
+  audienceSize      String?
+  budgetRange       String?
+  message           String   @db.Text
+  status            String   @default("new")
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([email])
+  @@index([status])
+  @@index([createdAt])
+}
