@@ -23,6 +23,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Yarn config (environment-specific)
+.yarnrc.yml
+.yarn/
+
 # Local env files
 .env
 .env.local
