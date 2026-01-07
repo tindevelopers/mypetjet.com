@@ -1,32 +1,32 @@
-# Pet Jet Website - Turborepo Monorepo
+# Pet Jet Website
 
-A professional B2B advisory website for Pet Jet, built with Next.js and organized as a Turborepo monorepo.
+A professional B2B advisory website for Pet Jet, built with Next.js 14 and featuring a modern tech aesthetic with strategic business focus.
 
 ## 🏗️ Project Structure
 
 ```
 pet-jet-website/
-├── apps/
-│   └── web/                    # Next.js frontend application
-│       ├── app/               # Next.js App Router pages
-│       ├── components/
-│       │   ├── ui/           # Generic reusable UI components
-│       │   ├── layout/       # Layout components (Navigation, Footer)
-│       │   └── *             # Utility components (AnimatedCounter, etc.)
-│       ├── public/           # Static assets
-│       └── lib/              # Utility functions
-├── packages/
-│   ├── types/                 # Shared TypeScript types
-│   │   └── src/
-│   │       └── index.ts      # Form types, GHL API types
-│   └── api-client/            # API utilities and clients
-│       └── src/
-│           ├── ghl.ts        # GoHighLevel API client
-│           ├── validation.ts # Form validation utilities
-│           └── error-handling.ts # Error handling utilities
-├── turbo.json                 # Turborepo configuration
-├── package.json               # Root package.json with workspaces
-└── README.md                  # This file
+└── nextjs_space/              # Next.js application
+    ├── app/                   # Next.js App Router pages
+    │   ├── api/              # API routes (forms)
+    │   ├── about/            # About page
+    │   ├── contact/          # Contact page with form
+    │   ├── industries/       # Industries page
+    │   ├── meet-joey/        # Joey Villani page
+    │   ├── partnerships/     # Partnerships page with form
+    │   ├── services/         # Services pages
+    │   └── ...
+    ├── components/
+    │   ├── ui/              # Shadcn UI components
+    │   ├── layout/          # Navigation, Footer
+    │   └── *                # Feature components
+    ├── lib/                 # Utility functions
+    │   ├── types.ts         # TypeScript types
+    │   ├── validation.ts    # Form validation
+    │   ├── ghl.ts          # GoHighLevel client (Phase 2)
+    │   └── utils.ts        # Utility functions
+    ├── public/              # Static assets
+    └── prisma/              # Database schema (auto-restored)
 ```
 
 ## 🚀 Getting Started
@@ -39,18 +39,14 @@ pet-jet-website/
 ### Installation
 
 ```bash
-# Install dependencies
+cd nextjs_space
 yarn install
 ```
 
 ### Development
 
 ```bash
-# Start development server (runs all apps in the monorepo)
-yarn dev
-
-# Or run just the web app
-cd apps/web
+cd nextjs_space
 yarn dev
 ```
 
@@ -59,40 +55,49 @@ The website will be available at http://localhost:3000
 ### Building
 
 ```bash
-# Build all packages
-yarn build
-
-# Or build just the web app
-cd apps/web
+cd nextjs_space
 yarn build
 ```
 
 ### Linting
 
 ```bash
-# Lint all packages
+cd nextjs_space
 yarn lint
 ```
 
-## 📦 Packages
+## 📦 Core Libraries
 
-### @pet-jet/types
+### /lib/types.ts
 
-Shared TypeScript types used across the monorepo.
+TypeScript type definitions for the application.
 
 **Includes:**
 - Form data types (Partnership, Contact, Product Evaluation, Joey Booking)
 - GoHighLevel API types
 - API response types
 
-### @pet-jet/api-client
+### /lib/validation.ts
 
-Shared API client utilities.
+Form validation utilities.
 
 **Includes:**
-- GoHighLevel API client (placeholder for Phase 2)
-- Form validation utilities
-- Error handling utilities
+- Email validation
+- Phone validation
+- Required field validation
+- ValidationException class
+
+### /lib/ghl.ts
+
+GoHighLevel API client (placeholder for Phase 2).
+
+**Includes:**
+- GHLClient class with form submission methods
+- Helper functions for creating GHL client instance
+
+### /lib/error-handling.ts
+
+Error handling utilities for API routes.
 
 ## 🔌 Integrations
 
@@ -103,19 +108,23 @@ All form submissions will be sent to GoHighLevel for lead management.
 **Current Status:** API routes are prepared with validation and error handling. GHL client is implemented as a placeholder.
 
 **To Complete:**
-1. Add GHL API credentials to `.env`:
+1. Add GHL API credentials to `nextjs_space/.env`:
    ```
    GHL_API_KEY=your_api_key
    GHL_LOCATION_ID=your_location_id
    ```
-2. Implement actual API calls in `/packages/api-client/src/ghl.ts`
+2. Implement actual API calls in `nextjs_space/lib/ghl.ts`
 3. Test all form submissions
 
-### Strapi CMS (Phase 3 - Planned)
+### Strapi CMS (Separate Repository - Planned)
 
 Content management system for dynamic content (blog, case studies, research reports).
 
-**Planned Location:** `/apps/strapi`
+**Architecture:** Strapi will be in a separate repository and deployed independently to Railway. The Next.js app will consume Strapi's REST API.
+
+**Deployment:**
+- Next.js: Platform or Vercel
+- Strapi: Railway (with PostgreSQL)
 
 ## 📝 Form Submissions
 
@@ -139,19 +148,19 @@ User fills form → Next.js validates → GHL API → CRM/Automation
 
 ## 🎨 Component Structure
 
-### UI Components (`/apps/web/components/ui/`)
+### UI Components (`nextjs_space/components/ui/`)
 
 Generic, reusable UI components following shadcn/ui patterns:
 - Button, Input, Textarea, Label, Select
 - Card, Toast, Dialog, Dropdown
 - And many more...
 
-### Layout Components (`/apps/web/components/layout/`)
+### Layout Components (`nextjs_space/components/layout/`)
 
 - **Navigation** - Main navigation bar with dropdowns
 - **Footer** - Site footer with links and contact info
 
-### Utility Components (`/apps/web/components/`)
+### Utility Components (`nextjs_space/components/`)
 
 - **AnimatedCounter** - Animated number counter
 - **FeatureCard** - Card component for features
@@ -160,34 +169,27 @@ Generic, reusable UI components following shadcn/ui patterns:
 
 ## 🔧 Development Workflow
 
-### Adding a New Shared Package
+### Adding a New Page
 
-1. Create package directory:
-   ```bash
-   mkdir -p packages/new-package/src
-   ```
-
-2. Create `package.json`:
-   ```json
-   {
-     "name": "@pet-jet/new-package",
-     "version": "0.0.1",
-     "private": true,
-     "main": "./src/index.ts"
-   }
-   ```
-
-3. Add to TypeScript config in `/apps/web/tsconfig.json`:
-   ```json
-   "@pet-jet/new-package": ["../../packages/new-package/src"]
-   ```
+1. Create page in `nextjs_space/app/[page-name]/page.tsx`
+2. Add to navigation in `nextjs_space/components/layout/navigation.tsx`
+3. Add metadata and SEO
+4. Test responsive design
 
 ### Adding a New Form
 
-1. Define type in `/packages/types/src/index.ts`
-2. Create API route in `/apps/web/app/api/`
-3. Add validation using `/packages/api-client` utilities
+1. Define type in `nextjs_space/lib/types.ts`
+2. Create API route in `nextjs_space/app/api/`
+3. Add validation using `nextjs_space/lib/validation.ts` utilities
 4. Add GHL submission logic (Phase 2)
+5. Create form component
+6. Test validation and submission
+
+### Adding New Utilities
+
+1. Add utility functions to `nextjs_space/lib/utils.ts`
+2. Add types to `nextjs_space/lib/types.ts`
+3. Export and use across the application
 
 ## 🚢 Deployment
 
@@ -212,12 +214,12 @@ Production:
 ## 🗺️ Roadmap
 
 ### ✅ Phase 1: Clean Foundation (COMPLETED)
-- [x] Create Turborepo structure
-- [x] Move Next.js to `/apps/web`
-- [x] Remove Prisma/database
-- [x] Create shared packages
-- [x] Prepare API routes for GHL
-- [x] Restructure components
+- [x] Built complete Next.js website with all pages
+- [x] Removed Prisma/database (GHL-only approach)
+- [x] Created utility libraries in /lib/
+- [x] Prepared API routes for GHL
+- [x] Reverted from monorepo to standard Next.js structure
+- [x] Platform checkpoint and deployment enabled
 
 ### 📋 Phase 2: GoHighLevel Integration (Next)
 - [ ] Get GHL API credentials
@@ -226,11 +228,12 @@ Production:
 - [ ] Test automation workflows
 - [ ] Set up error monitoring
 
-### 📋 Phase 3: Strapi CMS (Planned)
-- [ ] Initialize Strapi in `/apps/strapi`
+### 📋 Phase 3: Strapi CMS (Planned - Separate Repository)
+- [ ] Create new repository for Strapi
+- [ ] Initialize Strapi with PostgreSQL
 - [ ] Define content types
 - [ ] Deploy Strapi to Railway
-- [ ] Create Strapi API client
+- [ ] Create Strapi API client in Next.js (`lib/strapi.ts`)
 - [ ] Build Insights/Blog pages
 - [ ] Implement gated content
 
@@ -249,14 +252,14 @@ Production:
 
 ## 📚 Technologies
 
-- **Turborepo** - Monorepo build system
 - **Next.js 14** - React framework with App Router
 - **React 18** - UI library
 - **TypeScript** - Type safety
-- **Tailwind CSS** - Styling
+- **Tailwind CSS v3** - Styling
+- **Shadcn UI** - Component library
 - **Framer Motion** - Animations
 - **GoHighLevel** - CRM and lead management (Phase 2)
-- **Strapi** - Headless CMS (Phase 3)
+- **Strapi** - Headless CMS (Phase 3, separate repo)
 
 ## 🤝 Contributing
 
@@ -265,8 +268,8 @@ Production:
 - Use TypeScript for all new code
 - Follow existing component patterns
 - Keep components small and focused
-- Use shared types from `@pet-jet/types`
-- Validate forms using `@pet-jet/api-client` utilities
+- Use types from `lib/types.ts`
+- Validate forms using `lib/validation.ts` utilities
 
 ### Commit Messages
 
