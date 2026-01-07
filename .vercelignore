@@ -1,13 +1,18 @@
-# Root-level files that shouldn't be deployed
-package.json
-yarn.lock
+# Documentation files
 README.md
 PHASE_1_CHANGES.md
 PHASE_1_CHANGES.pdf
+VERCEL_ENV_SETUP.md
+VERCEL_ROOT_DIRECTORY_SETUP.md
 *.md
 *.pdf
 
 # Development files
 .env.example
 .gitignore
+
+# Old monorepo structure
+nextjs_space/
+package.json.old
+yarn.lock.old
 
