@@ -23,10 +23,10 @@ pet-jet-website/
     ├── lib/
     │   ├── types.ts         # TypeScript types
     │   ├── validation.ts    # Form validation
+    │   ├── strapi.ts        # Strapi CMS client
     │   ├── ghl.ts          # GoHighLevel client (Phase 2)
     │   └── error-handling.ts # API error handling
-    ├── public/              # Static assets
-    └── prisma/              # Database schema (unused in Phase 1)
+    └── public/              # Static assets
 ```
 
 ## 🚀 Getting Started
@@ -126,9 +126,9 @@ All forms include:
 - [ ] Pipeline automation
 - [ ] Webhook handlers
 
-### Phase 3: Content Management 🔄
-- [ ] Strapi CMS (separate repository)
-- [ ] Blog/Insights
+### Phase 3: Content Management ✅
+- [x] Strapi CMS integration
+- [x] Blog/Insights
 - [ ] Case studies
 - [ ] Dynamic content
 
@@ -141,8 +141,15 @@ All forms include:
 3. Framework Preset: Next.js (auto-detected)
 4. Deploy
 
-### Environment Variables (Phase 2)
+### Environment Variables
 
+**Strapi CMS (Required):**
+```env
+NEXT_PUBLIC_STRAPI_API_URL=https://strapi-app-production-77b3.up.railway.app
+NEXT_PUBLIC_STRAPI_API_TOKEN=your_strapi_api_token
+```
+
+**GoHighLevel (Phase 2):**
 ```env
 GHL_API_KEY=your_ghl_api_key
 GHL_LOCATION_ID=your_ghl_location_id
