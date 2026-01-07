@@ -40,18 +40,12 @@ pet-jet-website/
 
 ```bash
 # Install dependencies
-cd nextjs_space
 yarn install
 ```
 
 ### Development
 
 ```bash
-# From root
-yarn dev
-
-# Or from nextjs_space
-cd nextjs_space
 yarn dev
 ```
 
@@ -60,22 +54,12 @@ The website will be available at http://localhost:3000
 ### Building
 
 ```bash
-# From root
-yarn build
-
-# Or from nextjs_space
-cd nextjs_space
 yarn build
 ```
 
 ### Production
 
 ```bash
-# From root
-yarn start
-
-# Or from nextjs_space
-cd nextjs_space
 yarn start
 ```
 
@@ -136,9 +120,9 @@ All forms include:
 
 ### Vercel Deployment
 
-1. Connect GitHub repository
-2. Set **Root Directory** to `nextjs_space` in project settings
-3. Framework Preset: Next.js (auto-detected)
+1. Connect GitHub repository to Vercel
+2. Framework Preset: Next.js (auto-detected)
+3. Vercel will automatically detect Next.js and configure the build
 4. Deploy
 
 ### Environment Variables
