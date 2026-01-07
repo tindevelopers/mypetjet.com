@@ -1,19 +1,12 @@
 {
-  "name": "pet-jet-monorepo",
+  "name": "pet-jet-website",
   "version": "1.0.0",
   "private": true,
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
   "scripts": {
-    "dev": "turbo run dev",
-    "build": "turbo run build",
-    "lint": "turbo run lint",
-    "clean": "turbo run clean"
-  },
-  "devDependencies": {
-    "turbo": "^2.3.3"
+    "dev": "cd nextjs_space && yarn dev",
+    "build": "cd nextjs_space && yarn build",
+    "start": "cd nextjs_space && yarn start",
+    "lint": "cd nextjs_space && yarn lint"
   },
   "packageManager": "yarn@1.22.19",
   "engines": {
