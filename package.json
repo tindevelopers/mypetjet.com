@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "postinstall": "cd nextjs_space && yarn install",
     "dev": "cd nextjs_space && yarn dev",
     "build": "cd nextjs_space && yarn build",
     "start": "cd nextjs_space && yarn start",
