@@ -26,6 +26,12 @@
     "paths": {
       "@/*": [
         "./*"
+      ],
+      "@pet-jet/types": [
+        "../../packages/types/src"
+      ],
+      "@pet-jet/api-client": [
+        "../../packages/api-client/src"
       ]
     }
   },
