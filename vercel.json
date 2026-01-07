@@ -1,7 +1,4 @@
 {
   "buildCommand": "cd nextjs_space && yarn install && yarn build",
-  "devCommand": "cd nextjs_space && yarn dev",
-  "installCommand": "echo 'Skipping root install'",
-  "framework": "nextjs",
   "outputDirectory": "nextjs_space/.next"
 }

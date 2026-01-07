@@ -1,0 +1,13 @@
+# Root-level files that shouldn't be deployed
+package.json
+yarn.lock
+README.md
+PHASE_1_CHANGES.md
+PHASE_1_CHANGES.pdf
+*.md
+*.pdf
+
+# Development files
+.env.example
+.gitignore
+
