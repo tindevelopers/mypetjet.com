@@ -143,17 +143,15 @@ All forms include:
 
 ### Environment Variables
 
-**Strapi CMS (Required):**
-```env
-NEXT_PUBLIC_STRAPI_API_URL=https://strapi-app-production-77b3.up.railway.app
-NEXT_PUBLIC_STRAPI_API_TOKEN=your_strapi_api_token
-```
+See [VERCEL_ENV_SETUP.md](./VERCEL_ENV_SETUP.md) for detailed instructions on setting up environment variables in Vercel.
 
-**GoHighLevel (Phase 2):**
-```env
-GHL_API_KEY=your_ghl_api_key
-GHL_LOCATION_ID=your_ghl_location_id
-```
+**Required Variables:**
+- `NEXT_PUBLIC_STRAPI_API_URL` - Strapi CMS API URL
+- `NEXT_PUBLIC_STRAPI_API_TOKEN` - Strapi CMS API token
+
+**Optional (Phase 2):**
+- `GHL_API_KEY` - GoHighLevel API key
+- `GHL_LOCATION_ID` - GoHighLevel location ID
 
 ## 📄 License
 
