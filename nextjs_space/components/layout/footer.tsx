@@ -13,6 +13,7 @@ export default function Footer() {
       { name: "Meet Joey", href: "/meet-joey" },
     ],
     resources: [
+      { name: "Insights", href: "/insights" },
       { name: "Partnerships", href: "/partnerships" },
       { name: "Contact Us", href: "/contact" },
     ],

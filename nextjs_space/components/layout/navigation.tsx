@@ -25,6 +25,7 @@ const navigationItems = [
     ],
   },
   { name: "Industries", href: "/industries" },
+  { name: "Insights", href: "/insights" },
   { name: "Partnerships", href: "/partnerships" },
   { name: "Meet Joey", href: "/meet-joey" },
   { name: "Contact", href: "/contact" },
