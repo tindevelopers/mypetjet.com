@@ -6,27 +6,26 @@ A professional B2B advisory website for Pet Jet - "The Dogfather" advisory firm 
 
 ```
 pet-jet-website/
-└── nextjs_space/              # Next.js application
-    ├── app/                   # Next.js App Router pages
-    │   ├── page.tsx          # Homepage
-    │   ├── about/            # About Us
-    │   ├── services/         # Services (Strategy, Tech, Ops, Product)
-    │   ├── industries/       # 8 industry verticals
-    │   ├── partnerships/     # Partnership program
-    │   ├── meet-joey/        # Meet "The Dogfather"
-    │   ├── contact/          # Contact form
-    │   └── api/              # API routes (4 forms)
-    ├── components/
-    │   ├── ui/              # shadcn/ui components
-    │   ├── layout/          # Navigation, Footer
-    │   └── features/        # Feature-specific components
-    ├── lib/
-    │   ├── types.ts         # TypeScript types
-    │   ├── validation.ts    # Form validation
-    │   ├── strapi.ts        # Strapi CMS client
-    │   ├── ghl.ts          # GoHighLevel client (Phase 2)
-    │   └── error-handling.ts # API error handling
-    └── public/              # Static assets
+├── app/                      # Next.js App Router pages
+│   ├── page.tsx             # Homepage
+│   ├── about/               # About Us
+│   ├── services/            # Services (Strategy, Tech, Ops, Product)
+│   ├── industries/          # 8 industry verticals
+│   ├── partnerships/        # Partnership program
+│   ├── meet-joey/          # Meet "The Dogfather"
+│   ├── contact/            # Contact form
+│   └── api/                # API routes (4 forms)
+├── components/
+│   ├── ui/                 # shadcn/ui components
+│   ├── layout/             # Navigation, Footer
+│   └── features/           # Feature-specific components
+├── lib/
+│   ├── types.ts            # TypeScript types
+│   ├── validation.ts       # Form validation
+│   ├── strapi.ts          # Strapi CMS client
+│   ├── ghl.ts             # GoHighLevel client (Phase 2)
+│   └── error-handling.ts  # API error handling
+└── public/                 # Static assets
 ```
 
 ## 🚀 Getting Started
