@@ -110,12 +110,14 @@ export default async function InsightsPage() {
             const attrs = article?.attributes || article;
             if (!attrs) return null;
             
-            const title = attrs.title || '';
-            const slug = attrs.slug || '';
-            const publishedAt = attrs.publishedAt || attrs.createdAt || new Date().toISOString();
-            const excerpt = attrs.excerpt || attrs.description || '';
-            const featuredImage = attrs.featuredImage;
-            const category = attrs.category;
+            // Type assertion to handle both interface and actual API response
+            const attrsAny = attrs as any;
+            const title = attrsAny.title || '';
+            const slug = attrsAny.slug || '';
+            const publishedAt = attrsAny.publishedAt || attrsAny.createdAt || new Date().toISOString();
+            const excerpt = attrsAny.excerpt || attrsAny.description || '';
+            const featuredImage = attrsAny.featuredImage;
+            const category = attrsAny.category;
             
             return (
               <Card key={article.id || Math.random()} className="flex flex-col hover:shadow-lg transition-shadow">

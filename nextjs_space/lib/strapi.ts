@@ -12,8 +12,9 @@ export interface StrapiArticle {
   id: number;
   attributes: {
     title: string;
-    content: string;
+    content?: string;
     excerpt?: string;
+    description?: string;
     slug: string;
     publishedAt: string;
     createdAt: string;
