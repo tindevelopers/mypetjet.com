@@ -26,6 +26,16 @@ export default function PartnershipForm() {
   const { register, handleSubmit, reset, formState: { errors } } = useForm<PartnershipFormData>();
 
   const onSubmit = async (data: PartnershipFormData) => {
+    // Validate partnershipInterest is selected
+    if (!partnershipInterest) {
+      toast({
+        title: "Validation Error",
+        description: "Please select a partnership interest.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -48,12 +58,13 @@ export default function PartnershipForm() {
         reset();
         setPartnershipInterest("");
       } else {
-        throw new Error("Failed to submit");
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || "Failed to submit");
       }
     } catch (error) {
       toast({
         title: "Submission Failed",
-        description: "Please try again or contact us directly.",
+        description: error instanceof Error ? error.message : "Please try again or contact us directly.",
         variant: "destructive",
       });
     } finally {

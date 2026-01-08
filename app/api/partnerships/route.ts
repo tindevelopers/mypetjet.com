@@ -7,7 +7,13 @@ export const dynamic = "force-dynamic";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { company: companyName, name, email, phone, partnershipType: partnershipInterest, message } = body ?? {};
+    // Accept both field name variations for compatibility
+    const companyName = body.companyName || body.company;
+    const name = body.name;
+    const email = body.email;
+    const phone = body.phone;
+    const partnershipInterest = body.partnershipInterest || body.partnershipType;
+    const message = body.message;
 
     // Validate required fields
     const errors = [
