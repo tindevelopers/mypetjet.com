@@ -10,7 +10,7 @@ These variables are **required** for the website to function properly with Strap
 
 | Variable Name | Description | Example Value |
 |--------------|-------------|---------------|
-| `NEXT_PUBLIC_STRAPI_API_URL` | Strapi API base URL | `https://strapi-app-production-77b3.up.railway.app` |
+| `NEXT_PUBLIC_STRAPI_API_URL` | Strapi API base URL | `https://usable-purpose-b78d93dac8.strapiapp.com` |
 | `NEXT_PUBLIC_STRAPI_API_TOKEN` | Strapi API authentication token | `your_strapi_api_token_here` |
 
 **Note:** The `NEXT_PUBLIC_` prefix makes these variables available in the browser. Keep this prefix for client-side access.

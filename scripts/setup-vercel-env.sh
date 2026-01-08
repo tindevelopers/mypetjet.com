@@ -46,8 +46,8 @@ echo "4. GHL_LOCATION_ID"
 echo ""
 
 # Prompt for Strapi URL
-read -p "Enter NEXT_PUBLIC_STRAPI_API_URL [default: https://strapi-app-production-77b3.up.railway.app]: " STRAPI_URL
-STRAPI_URL=${STRAPI_URL:-https://strapi-app-production-77b3.up.railway.app}
+read -p "Enter NEXT_PUBLIC_STRAPI_API_URL [default: https://usable-purpose-b78d93dac8.strapiapp.com]: " STRAPI_URL
+STRAPI_URL=${STRAPI_URL:-https://usable-purpose-b78d93dac8.strapiapp.com}
 
 # Prompt for Strapi Token
 read -p "Enter NEXT_PUBLIC_STRAPI_API_TOKEN (required): " STRAPI_TOKEN

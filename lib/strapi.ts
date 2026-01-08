@@ -1,11 +1,11 @@
 /**
  * Strapi CMS API Client
  * 
- * Connects to the Strapi backend hosted on Railway
- * API URL: https://strapi-app-production-77b3.up.railway.app
+ * Connects to the Strapi backend hosted on Strapi Cloud
+ * API URL: https://usable-purpose-b78d93dac8.strapiapp.com
  */
 
-const STRAPI_API_URL = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'https://strapi-app-production-77b3.up.railway.app';
+const STRAPI_API_URL = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'https://usable-purpose-b78d93dac8.strapiapp.com';
 const STRAPI_API_TOKEN = process.env.NEXT_PUBLIC_STRAPI_API_TOKEN || '';
 
 export interface StrapiArticle {

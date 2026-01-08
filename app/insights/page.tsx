@@ -1,4 +1,4 @@
-import { getArticles, isStrapiConfigured, type StrapiArticle } from '@/lib/strapi';
+import { getArticles, isStrapiConfigured, getStrapiImageUrl, type StrapiArticle } from '@/lib/strapi';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -110,7 +110,7 @@ export default async function InsightsPage() {
               {article.attributes.featuredImage?.data && (
                 <div className="aspect-video bg-muted relative overflow-hidden">
                   <img
-                    src={`https://strapi-app-production-77b3.up.railway.app${article.attributes.featuredImage.data.attributes.url}`}
+                    src={getStrapiImageUrl(article.attributes.featuredImage.data.attributes.url)}
                     alt={article.attributes.featuredImage.data.attributes.alternativeText || article.attributes.title}
                     className="w-full h-full object-cover"
                   />
