@@ -45,15 +45,16 @@ export async function POST(request: Request) {
       message,
     };
 
-    // TODO: Phase 2 - Submit to GoHighLevel
-    // const ghlClient = getGHLClient();
-    // const result = await ghlClient.submitProductEvaluation(formData);
-    // 
-    // if (!result.success) {
-    //   throw new Error('Failed to submit to GHL');
-    // }
-
-    console.log("Product evaluation request received (will be sent to GHL in Phase 2):", formData);
+    // Submit to GoHighLevel
+    const { getGHLClient } = await import("@/lib/ghl");
+    const ghlClient = getGHLClient();
+    const result = await ghlClient.submitProductEvaluation(formData);
+    
+    if (!result.success) {
+      console.error('Failed to submit to GHL:', result.error);
+      // Don't fail the whole request if GHL submission fails
+      // Just log the error and continue
+    }
 
     return NextResponse.json(
       {
