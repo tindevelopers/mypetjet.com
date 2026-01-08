@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -26,7 +26,7 @@ export default function JoeyBookingForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [eventType, setEventType] = useState("");
   const { toast } = useToast();
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<JoeyBookingFormData>();
+  const { register, handleSubmit, reset, control, formState: { errors } } = useForm<JoeyBookingFormData>();
 
   const onSubmit = async (data: JoeyBookingFormData) => {
     // Validate eventType is selected
@@ -183,18 +183,24 @@ export default function JoeyBookingForm() {
       <div className="grid gap-6 md:grid-cols-2">
         <div>
           <Label htmlFor="audienceSize">Expected Audience Size</Label>
-          <Select {...register("audienceSize")}>
-            <SelectTrigger className="mt-2">
-              <SelectValue placeholder="Select size" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="1-50">1-50 people</SelectItem>
-              <SelectItem value="51-100">51-100 people</SelectItem>
-              <SelectItem value="101-250">101-250 people</SelectItem>
-              <SelectItem value="251-500">251-500 people</SelectItem>
-              <SelectItem value="500+">500+ people</SelectItem>
-            </SelectContent>
-          </Select>
+          <Controller
+            name="audienceSize"
+            control={control}
+            render={({ field }) => (
+              <Select value={field.value} onValueChange={field.onChange}>
+                <SelectTrigger className="mt-2">
+                  <SelectValue placeholder="Select size" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="1-50">1-50 people</SelectItem>
+                  <SelectItem value="51-100">51-100 people</SelectItem>
+                  <SelectItem value="101-250">101-250 people</SelectItem>
+                  <SelectItem value="251-500">251-500 people</SelectItem>
+                  <SelectItem value="500+">500+ people</SelectItem>
+                </SelectContent>
+              </Select>
+            )}
+          />
         </div>
         <div>
           <Label htmlFor="budgetRange">Budget Range (Optional)</Label>

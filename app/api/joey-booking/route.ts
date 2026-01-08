@@ -45,15 +45,16 @@ export async function POST(request: Request) {
       throw new ValidationException(errors as any[]);
     }
 
+    // After validation, required fields are guaranteed to be strings
     // Prepare form data for GHL
     const formData: JoeyBookingFormData = {
-      name,
+      name: name!,
       company: company || undefined,
-      email,
-      phone,
-      serviceType,
+      email: email!,
+      phone: phone!,
+      serviceType: serviceType!,
       eventDate: eventDate || undefined,
-      message,
+      message: message!,
     };
 
     // TODO: Phase 2 - Submit to GoHighLevel

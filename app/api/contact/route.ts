@@ -47,14 +47,15 @@ export async function POST(request: Request) {
       throw new ValidationException(errors as any[]);
     }
 
+    // After validation, required fields are guaranteed to be strings
     // Prepare form data for GHL
     const formData: ContactFormData = {
-      name,
-      email,
+      name: name!,
+      email: email!,
       company: companyName || undefined,
       phone: phone || undefined,
-      subject,
-      message,
+      subject: subject!,
+      message: message!,
       // Include additional fields for future use
       title: title || undefined,
       serviceInterest: serviceInterest || undefined,
