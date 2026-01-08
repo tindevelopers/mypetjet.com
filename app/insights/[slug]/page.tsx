@@ -73,10 +73,17 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         )}
 
         {/* Article Content */}
-        <div 
-          className="prose prose-lg max-w-none"
-          dangerouslySetInnerHTML={{ __html: article.attributes.content }}
-        />
+        {article.attributes.content && (
+          <div 
+            className="prose prose-lg max-w-none"
+            dangerouslySetInnerHTML={{ __html: article.attributes.content }}
+          />
+        )}
+        {!article.attributes.content && article.attributes.description && (
+          <div className="prose prose-lg max-w-none">
+            <p>{article.attributes.description}</p>
+          </div>
+        )}
 
         {/* Back to Insights CTA */}
         <div className="mt-12 pt-12 border-t">
