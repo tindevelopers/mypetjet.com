@@ -57,7 +57,8 @@ export default function ContactForm() {
         setPreferredContact("");
         setHearAboutUs("");
       } else {
-        throw new Error("Failed to submit");
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || "Failed to submit");
       }
     } catch (error) {
       toast({

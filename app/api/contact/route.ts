@@ -7,20 +7,23 @@ export const dynamic = "force-dynamic";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const {
-      company: companyName,
-      name,
-      email,
-      phone,
-      subject,
-      message,
-    } = body ?? {};
+    // Accept both field name variations for compatibility
+    const companyName = body.companyName || body.company;
+    const name = body.name;
+    const email = body.email;
+    const phone = body.phone;
+    const title = body.title;
+    const subject = body.subject || body.serviceInterest || "General Inquiry";
+    const message = body.message;
+    const serviceInterest = body.serviceInterest;
+    const companyStage = body.companyStage;
+    const preferredContact = body.preferredContact;
+    const hearAboutUs = body.hearAboutUs;
 
     // Validate required fields
     const errors = [
       validateRequired(name, "name"),
       validateEmailField(email),
-      validateRequired(subject, "subject"),
       validateRequired(message, "message"),
     ].filter(Boolean);
 
@@ -36,6 +39,12 @@ export async function POST(request: Request) {
       phone: phone || undefined,
       subject,
       message,
+      // Include additional fields for future use
+      title: title || undefined,
+      serviceInterest: serviceInterest || undefined,
+      companyStage: companyStage || undefined,
+      preferredContact: preferredContact || undefined,
+      hearAboutUs: hearAboutUs || undefined,
     };
 
     // TODO: Phase 2 - Submit to GoHighLevel

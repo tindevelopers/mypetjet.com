@@ -13,8 +13,13 @@ export interface ContactFormData {
   email: string;
   company?: string;
   phone?: string;
+  title?: string;
   subject: string;
   message: string;
+  serviceInterest?: string;
+  companyStage?: string;
+  preferredContact?: string;
+  hearAboutUs?: string;
 }
 
 export interface ProductEvaluationFormData {
