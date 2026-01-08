@@ -9,11 +9,17 @@ Strapi fetch error: Error: Strapi API error: 401 Unauthorized
 
 ## Root Cause
 
-The environment variables in Vercel have **trailing newlines** (`\n`) in their values:
-- `NEXT_PUBLIC_STRAPI_API_TOKEN` ends with `\n`
-- `NEXT_PUBLIC_STRAPI_API_URL` ends with `\n`
+**The API token is invalid or expired.**
 
-This causes the Bearer token to be invalid when sent to Strapi, resulting in a 401 Unauthorized error.
+Direct testing shows:
+- ✅ API endpoint is reachable
+- ✅ Without token: Returns 403 Forbidden (expected - requires auth)
+- ❌ With token: Returns 401 Unauthorized - "Missing or invalid credentials"
+
+This indicates the token stored in Vercel environment variables is either:
+1. Invalid/expired
+2. Revoked in Strapi
+3. Not the correct token for this Strapi instance
 
 ## Solution
 
@@ -54,15 +60,38 @@ curl "https://strapi-app-production-77b3.up.railway.app/api/articles?populate=*&
 
 If you get a 401, the token itself might be invalid or expired.
 
-### Step 3: Regenerate Token in Strapi (If Needed)
+### Step 3: Regenerate Token in Strapi (REQUIRED)
 
-If the token is invalid:
+**The current token is invalid. You MUST create a new one:**
 
-1. Go to Strapi Admin Panel: https://strapi-app-production-77b3.up.railway.app/admin
-2. Navigate to **Settings** → **API Tokens**
-3. Create a new **Read-only** API token
-4. Copy the token (without any trailing spaces/newlines)
-5. Update in Vercel environment variables
+1. **Go to Strapi Admin Panel**
+   - Visit: https://strapi-app-production-77b3.up.railway.app/admin
+   - Log in if needed
+
+2. **Create New API Token**
+   - Navigate to **Settings** → **API Tokens** (or **Settings** → **Users & Permissions Plugin** → **API Tokens**)
+   - Click **Create new API Token**
+   - **Name**: `Pet Jet Website API Token` (or any descriptive name)
+   - **Token type**: Select **Read-only** (or **Full access** if you need write access)
+   - **Token duration**: Select **Unlimited** (or set expiration as needed)
+   - Click **Save**
+
+3. **Copy the New Token**
+   - ⚠️ **IMPORTANT**: Copy the token immediately - you won't be able to see it again!
+   - Make sure there are NO trailing spaces or newlines
+   - The token should be a long string of characters
+
+4. **Update Vercel Environment Variables**
+   - Go to Vercel Dashboard → Your Project → Settings → Environment Variables
+   - Update `NEXT_PUBLIC_STRAPI_API_TOKEN` for Production, Preview, and Development
+   - Use the Vercel CLI to ensure no newlines:
+     ```bash
+     echo -n "YOUR_NEW_TOKEN_HERE" | vercel env rm NEXT_PUBLIC_STRAPI_API_TOKEN production --yes
+     echo -n "YOUR_NEW_TOKEN_HERE" | vercel env add NEXT_PUBLIC_STRAPI_API_TOKEN production
+     ```
+
+5. **Redeploy**
+   - Vercel will automatically redeploy, or manually trigger a redeploy
 
 ## Prevention
 
