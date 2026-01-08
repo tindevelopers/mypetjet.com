@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -21,21 +21,14 @@ interface PartnershipFormData {
 
 export default function PartnershipForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [partnershipInterest, setPartnershipInterest] = useState("");
   const { toast } = useToast();
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<PartnershipFormData>();
+  const { register, handleSubmit, reset, control, formState: { errors } } = useForm<PartnershipFormData>({
+    defaultValues: {
+      partnershipInterest: "",
+    },
+  });
 
   const onSubmit = async (data: PartnershipFormData) => {
-    // Validate partnershipInterest is selected
-    if (!partnershipInterest) {
-      toast({
-        title: "Validation Error",
-        description: "Please select a partnership interest.",
-        variant: "destructive",
-      });
-      return;
-    }
-
     setIsSubmitting(true);
 
     try {
@@ -46,7 +39,7 @@ export default function PartnershipForm() {
         },
         body: JSON.stringify({
           ...data,
-          partnershipInterest,
+          partnershipInterest: data.partnershipInterest,
         }),
       });
 
@@ -56,7 +49,6 @@ export default function PartnershipForm() {
           description: "Thank you for your interest. We'll be in touch soon.",
         });
         reset();
-        setPartnershipInterest("");
       } else {
         const errorData = await response.json().catch(() => ({}));
         const errorMessage = errorData.details?.map((d: any) => d.message).join(", ") || errorData.error || "Failed to submit";
@@ -136,21 +128,28 @@ export default function PartnershipForm() {
 
       <div>
         <Label htmlFor="partnershipInterest">Partnership Interest *</Label>
-        <Select value={partnershipInterest} onValueChange={setPartnershipInterest}>
-          <SelectTrigger className="mt-2">
-            <SelectValue placeholder="Select your interest" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="strategy-consulting">Strategy & Consulting</SelectItem>
-            <SelectItem value="technology-development">Technology Development</SelectItem>
-            <SelectItem value="operations-growth">Operations & Growth</SelectItem>
-            <SelectItem value="product-evaluation">Product Evaluation</SelectItem>
-            <SelectItem value="investment">Investment Opportunities</SelectItem>
-            <SelectItem value="general">General Partnership Inquiry</SelectItem>
-          </SelectContent>
-        </Select>
-        {!partnershipInterest && (
-          <p className="mt-1 text-sm text-red-600">Partnership interest is required</p>
+        <Controller
+          name="partnershipInterest"
+          control={control}
+          rules={{ required: "Partnership interest is required" }}
+          render={({ field }) => (
+            <Select value={field.value} onValueChange={field.onChange}>
+              <SelectTrigger className="mt-2">
+                <SelectValue placeholder="Select your interest" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="strategy-consulting">Strategy & Consulting</SelectItem>
+                <SelectItem value="technology-development">Technology Development</SelectItem>
+                <SelectItem value="operations-growth">Operations & Growth</SelectItem>
+                <SelectItem value="product-evaluation">Product Evaluation</SelectItem>
+                <SelectItem value="investment">Investment Opportunities</SelectItem>
+                <SelectItem value="general">General Partnership Inquiry</SelectItem>
+              </SelectContent>
+            </Select>
+          )}
+        />
+        {errors?.partnershipInterest && (
+          <p className="mt-1 text-sm text-red-600">{errors.partnershipInterest.message}</p>
         )}
       </div>
 
