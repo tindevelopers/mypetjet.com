@@ -29,6 +29,16 @@ export default function JoeyBookingForm() {
   const { register, handleSubmit, reset, formState: { errors } } = useForm<JoeyBookingFormData>();
 
   const onSubmit = async (data: JoeyBookingFormData) => {
+    // Validate eventType is selected
+    if (!eventType) {
+      toast({
+        title: "Validation Error",
+        description: "Please select an event/service type.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -39,7 +49,9 @@ export default function JoeyBookingForm() {
         },
         body: JSON.stringify({
           ...data,
-          eventType,
+          serviceType: eventType, // Send as serviceType for API compatibility
+          eventType, // Also send as eventType for backward compatibility
+          company: data.organization, // Map organization to company
         }),
       });
 
@@ -51,12 +63,14 @@ export default function JoeyBookingForm() {
         reset();
         setEventType("");
       } else {
-        throw new Error("Failed to submit");
+        const errorData = await response.json().catch(() => ({}));
+        const errorMessage = errorData.details?.map((d: any) => d.message).join(", ") || errorData.error || "Failed to submit";
+        throw new Error(errorMessage);
       }
     } catch (error) {
       toast({
         title: "Submission Failed",
-        description: "Please try again or contact us directly.",
+        description: error instanceof Error ? error.message : "Please try again or contact us directly.",
         variant: "destructive",
       });
     } finally {
@@ -111,14 +125,17 @@ export default function JoeyBookingForm() {
           )}
         </div>
         <div>
-          <Label htmlFor="phone">Phone Number</Label>
+          <Label htmlFor="phone">Phone Number *</Label>
           <Input
             id="phone"
             type="tel"
-            {...register("phone")}
+            {...register("phone", { required: "Phone number is required" })}
             placeholder="+1 (555) 123-4567"
             className="mt-2"
           />
+          {errors?.phone && (
+            <p className="mt-1 text-sm text-red-600">{errors.phone.message}</p>
+          )}
         </div>
       </div>
 
@@ -137,6 +154,9 @@ export default function JoeyBookingForm() {
             <SelectItem value="other">Other</SelectItem>
           </SelectContent>
         </Select>
+        {!eventType && (
+          <p className="mt-1 text-sm text-red-600">Event/Service type is required</p>
+        )}
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">

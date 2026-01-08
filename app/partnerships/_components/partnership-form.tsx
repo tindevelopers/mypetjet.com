@@ -59,7 +59,8 @@ export default function PartnershipForm() {
         setPartnershipInterest("");
       } else {
         const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error || "Failed to submit");
+        const errorMessage = errorData.details?.map((d: any) => d.message).join(", ") || errorData.error || "Failed to submit";
+        throw new Error(errorMessage);
       }
     } catch (error) {
       toast({
@@ -148,6 +149,9 @@ export default function PartnershipForm() {
             <SelectItem value="general">General Partnership Inquiry</SelectItem>
           </SelectContent>
         </Select>
+        {!partnershipInterest && (
+          <p className="mt-1 text-sm text-red-600">Partnership interest is required</p>
+        )}
       </div>
 
       <div>

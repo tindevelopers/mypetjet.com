@@ -6,17 +6,32 @@ export const dynamic = "force-dynamic";
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
-    const {
-      company,
-      name,
-      email,
-      phone,
-      productName,
-      productCategory,
-      evaluationStage,
-      message,
-    } = body ?? {};
+    let body;
+    try {
+      body = await request.json();
+    } catch (parseError) {
+      return NextResponse.json(
+        { 
+          success: false,
+          error: "Invalid request body. Please ensure all fields are properly filled.",
+          details: [{ field: "body", message: "Request body must be valid JSON" }]
+        },
+        { status: 400 }
+      );
+    }
+
+    // Accept both field name variations for compatibility
+    // Normalize empty strings to undefined
+    const normalize = (value: any) => (value && typeof value === 'string' && value.trim() !== '') ? value.trim() : undefined;
+    
+    const company = normalize(body.company || body.companyName);
+    const name = normalize(body.name);
+    const email = normalize(body.email);
+    const phone = normalize(body.phone);
+    const productName = normalize(body.productName);
+    const productCategory = normalize(body.productCategory);
+    const evaluationStage = normalize(body.evaluationStage);
+    const message = normalize(body.message);
 
     // Validate required fields
     const errors = [

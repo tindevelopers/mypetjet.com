@@ -6,19 +6,35 @@ export const dynamic = "force-dynamic";
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
+    let body;
+    try {
+      body = await request.json();
+    } catch (parseError) {
+      return NextResponse.json(
+        { 
+          success: false,
+          error: "Invalid request body. Please ensure all fields are properly filled.",
+          details: [{ field: "body", message: "Request body must be valid JSON" }]
+        },
+        { status: 400 }
+      );
+    }
+
     // Accept both field name variations for compatibility
-    const companyName = body.companyName || body.company;
-    const name = body.name;
-    const email = body.email;
-    const phone = body.phone;
-    const title = body.title;
-    const subject = body.subject || body.serviceInterest || "General Inquiry";
-    const message = body.message;
-    const serviceInterest = body.serviceInterest;
-    const companyStage = body.companyStage;
-    const preferredContact = body.preferredContact;
-    const hearAboutUs = body.hearAboutUs;
+    // Normalize empty strings to undefined
+    const normalize = (value: any) => (value && typeof value === 'string' && value.trim() !== '') ? value.trim() : undefined;
+    
+    const companyName = normalize(body.companyName || body.company);
+    const name = normalize(body.name);
+    const email = normalize(body.email);
+    const phone = normalize(body.phone);
+    const title = normalize(body.title);
+    const subject = normalize(body.subject || body.serviceInterest) || "General Inquiry";
+    const message = normalize(body.message);
+    const serviceInterest = normalize(body.serviceInterest);
+    const companyStage = normalize(body.companyStage);
+    const preferredContact = normalize(body.preferredContact);
+    const hearAboutUs = normalize(body.hearAboutUs);
 
     // Validate required fields
     const errors = [

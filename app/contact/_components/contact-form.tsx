@@ -58,12 +58,13 @@ export default function ContactForm() {
         setHearAboutUs("");
       } else {
         const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error || "Failed to submit");
+        const errorMessage = errorData.details?.map((d: any) => d.message).join(", ") || errorData.error || "Failed to submit";
+        throw new Error(errorMessage);
       }
     } catch (error) {
       toast({
         title: "Submission Failed",
-        description: "Please try again or email us directly at info@petjet.com",
+        description: error instanceof Error ? error.message : "Please try again or email us directly at info@petjet.com",
         variant: "destructive",
       });
     } finally {
