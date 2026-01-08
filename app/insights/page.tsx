@@ -105,50 +105,65 @@ export default async function InsightsPage() {
         </Card>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {articles.map((article) => (
-            <Card key={article.id} className="flex flex-col hover:shadow-lg transition-shadow">
-              {article.attributes.featuredImage?.data && (
-                <div className="aspect-video bg-muted relative overflow-hidden">
-                  <img
-                    src={getStrapiImageUrl(article.attributes.featuredImage.data.attributes.url)}
-                    alt={article.attributes.featuredImage.data.attributes.alternativeText || article.attributes.title}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              )}
-              <CardHeader>
-                {article.attributes.category?.data && (
-                  <div className="text-xs font-semibold text-primary mb-2">
-                    {article.attributes.category.data.attributes.name}
+          {articles.map((article) => {
+            // Safely access article properties with fallbacks
+            const attrs = article?.attributes || article;
+            if (!attrs) return null;
+            
+            const title = attrs.title || '';
+            const slug = attrs.slug || '';
+            const publishedAt = attrs.publishedAt || attrs.createdAt || new Date().toISOString();
+            const excerpt = attrs.excerpt || attrs.description || '';
+            const featuredImage = attrs.featuredImage;
+            const category = attrs.category;
+            
+            return (
+              <Card key={article.id || Math.random()} className="flex flex-col hover:shadow-lg transition-shadow">
+                {featuredImage?.data && (
+                  <div className="aspect-video bg-muted relative overflow-hidden">
+                    <img
+                      src={getStrapiImageUrl(featuredImage.data.attributes?.url || featuredImage.data.url || '')}
+                      alt={featuredImage.data.attributes?.alternativeText || featuredImage.data.alternativeText || title}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                 )}
-                <CardTitle className="line-clamp-2">{article.attributes.title}</CardTitle>
-                <CardDescription className="flex items-center gap-2 text-xs">
-                  <Calendar className="h-3 w-3" />
-                  {new Date(article.attributes.publishedAt).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                  })}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="flex-1">
-                {article.attributes.excerpt && (
-                  <p className="text-sm text-muted-foreground line-clamp-3 mb-4">
-                    {article.attributes.excerpt}
-                  </p>
-                )}
-              </CardContent>
-              <div className="px-6 pb-6">
-                <Link href={`/insights/${article.attributes.slug}`}>
-                  <Button variant="ghost" className="w-full group">
-                    Read Article
-                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  </Button>
-                </Link>
-              </div>
-            </Card>
-          ))}
+                <CardHeader>
+                  {category?.data && (
+                    <div className="text-xs font-semibold text-primary mb-2">
+                      {category.data.attributes?.name || category.data.name || ''}
+                    </div>
+                  )}
+                  <CardTitle className="line-clamp-2">{title}</CardTitle>
+                  <CardDescription className="flex items-center gap-2 text-xs">
+                    <Calendar className="h-3 w-3" />
+                    {new Date(publishedAt).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="flex-1">
+                  {excerpt && (
+                    <p className="text-sm text-muted-foreground line-clamp-3 mb-4">
+                      {excerpt}
+                    </p>
+                  )}
+                </CardContent>
+                <div className="px-6 pb-6">
+                  {slug && (
+                    <Link href={`/insights/${slug}`}>
+                      <Button variant="ghost" className="w-full group">
+                        Read Article
+                        <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                      </Button>
+                    </Link>
+                  )}
+                </div>
+              </Card>
+            );
+          })}
         </div>
       )}
     </div>
