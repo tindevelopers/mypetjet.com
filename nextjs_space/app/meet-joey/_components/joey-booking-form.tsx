@@ -12,13 +12,11 @@ import { Loader2, Send } from "lucide-react";
 
 interface JoeyBookingFormData {
   name: string;
-  organization?: string;
+  company?: string;
   email: string;
   phone?: string;
-  eventDate?: string;
-  eventLocation?: string;
-  audienceSize?: string;
-  budgetRange?: string;
+  serviceType?: string;
+  preferredDate?: string;
   message: string;
 }
 
@@ -39,7 +37,7 @@ export default function JoeyBookingForm() {
         },
         body: JSON.stringify({
           ...data,
-          eventType,
+          serviceType: eventType,
         }),
       });
 
@@ -80,10 +78,10 @@ export default function JoeyBookingForm() {
           )}
         </div>
         <div>
-          <Label htmlFor="organization">Organization</Label>
+          <Label htmlFor="company">Company/Organization</Label>
           <Input
-            id="organization"
-            {...register("organization")}
+            id="company"
+            {...register("company")}
             placeholder="Company or event name"
             className="mt-2"
           />

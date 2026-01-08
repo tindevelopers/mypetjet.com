@@ -11,11 +11,12 @@ import { useToast } from "@/hooks/use-toast";
 import { Loader2, Send } from "lucide-react";
 
 interface ContactFormData {
-  companyName: string;
+  company: string;
   name: string;
   title?: string;
   email: string;
   phone?: string;
+  subject: string;
   message: string;
 }
 
@@ -39,6 +40,7 @@ export default function ContactForm() {
         },
         body: JSON.stringify({
           ...data,
+          subject: serviceInterest || "General Inquiry",
           serviceInterest,
           companyStage,
           preferredContact,
@@ -74,15 +76,15 @@ export default function ContactForm() {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div className="grid gap-6 md:grid-cols-2">
         <div>
-          <Label htmlFor="companyName">Company Name *</Label>
+          <Label htmlFor="company">Company Name *</Label>
           <Input
-            id="companyName"
-            {...register("companyName", { required: "Company name is required" })}
+            id="company"
+            {...register("company", { required: "Company name is required" })}
             placeholder="Your company name"
             className="mt-2"
           />
-          {errors?.companyName && (
-            <p className="mt-1 text-sm text-red-600">{errors.companyName.message}</p>
+          {errors?.company && (
+            <p className="mt-1 text-sm text-red-600">{errors.company.message}</p>
           )}
         </div>
         <div>

@@ -11,17 +11,17 @@ import { useToast } from "@/hooks/use-toast";
 import { Loader2, Send } from "lucide-react";
 
 interface PartnershipFormData {
-  companyName: string;
+  company: string;
   name: string;
   email: string;
   phone?: string;
-  partnershipInterest: string;
+  partnershipType: string;
   message: string;
 }
 
 export default function PartnershipForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [partnershipInterest, setPartnershipInterest] = useState("");
+  const [partnershipType, setPartnershipType] = useState("");
   const { toast } = useToast();
   const { register, handleSubmit, reset, formState: { errors } } = useForm<PartnershipFormData>();
 
@@ -36,7 +36,7 @@ export default function PartnershipForm() {
         },
         body: JSON.stringify({
           ...data,
-          partnershipInterest,
+          partnershipType,
         }),
       });
 
@@ -46,7 +46,7 @@ export default function PartnershipForm() {
           description: "Thank you for your interest. We'll be in touch soon.",
         });
         reset();
-        setPartnershipInterest("");
+        setPartnershipType("");
       } else {
         throw new Error("Failed to submit");
       }
@@ -65,15 +65,15 @@ export default function PartnershipForm() {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div className="grid gap-6 md:grid-cols-2">
         <div>
-          <Label htmlFor="companyName">Company Name *</Label>
+          <Label htmlFor="company">Company Name *</Label>
           <Input
-            id="companyName"
-            {...register("companyName", { required: "Company name is required" })}
+            id="company"
+            {...register("company", { required: "Company name is required" })}
             placeholder="Your company name"
             className="mt-2"
           />
-          {errors?.companyName && (
-            <p className="mt-1 text-sm text-red-600">{errors.companyName.message}</p>
+          {errors?.company && (
+            <p className="mt-1 text-sm text-red-600">{errors.company.message}</p>
           )}
         </div>
         <div>
@@ -123,8 +123,8 @@ export default function PartnershipForm() {
       </div>
 
       <div>
-        <Label htmlFor="partnershipInterest">Partnership Interest *</Label>
-        <Select value={partnershipInterest} onValueChange={setPartnershipInterest}>
+        <Label htmlFor="partnershipType">Partnership Interest *</Label>
+        <Select value={partnershipType} onValueChange={setPartnershipType}>
           <SelectTrigger className="mt-2">
             <SelectValue placeholder="Select your interest" />
           </SelectTrigger>
