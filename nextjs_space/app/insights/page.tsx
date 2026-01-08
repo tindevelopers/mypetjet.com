@@ -49,7 +49,13 @@ export default async function InsightsPage() {
 
   try {
     const response = await getArticles(1, 12);
-    articles = response.data || [];
+    // Filter out articles without title or slug
+    articles = (response.data || []).filter(article => {
+      if (!article) return false;
+      const attrs = article.attributes || article;
+      // Must have both title and slug to be valid
+      return attrs.title && attrs.slug;
+    });
   } catch (err) {
     hasError = true;
   }

@@ -13,9 +13,11 @@ interface ArticlePageProps {
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const article = await getArticleBySlug(params.slug);
 
-  if (!article) {
+  if (!article || !article.attributes) {
     notFound();
   }
+
+  const { attributes } = article;
 
   return (
     <div className="container mx-auto px-4 py-16">
@@ -31,57 +33,59 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
       {/* Article Header */}
       <article className="max-w-4xl mx-auto">
-        {article.attributes.category?.data && (
+        {attributes.category?.data?.attributes?.name && (
           <div className="text-sm font-semibold text-primary mb-4">
-            {article.attributes.category.data.attributes.name}
+            {attributes.category.data.attributes.name}
           </div>
         )}
         
         <h1 className="text-4xl md:text-5xl font-bold mb-6">
-          {article.attributes.title}
+          {attributes.title}
         </h1>
 
         {/* Article Meta */}
         <div className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground mb-8 pb-8 border-b">
-          <div className="flex items-center gap-2">
-            <Calendar className="h-4 w-4" />
-            <time dateTime={article.attributes.publishedAt}>
-              {new Date(article.attributes.publishedAt).toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })}
-            </time>
-          </div>
-          {article.attributes.author?.data && (
+          {attributes.publishedAt && (
+            <div className="flex items-center gap-2">
+              <Calendar className="h-4 w-4" />
+              <time dateTime={attributes.publishedAt}>
+                {new Date(attributes.publishedAt).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
+              </time>
+            </div>
+          )}
+          {attributes.author?.data?.attributes?.name && (
             <div className="flex items-center gap-2">
               <User className="h-4 w-4" />
-              <span>{article.attributes.author.data.attributes.name}</span>
+              <span>{attributes.author.data.attributes.name}</span>
             </div>
           )}
         </div>
 
         {/* Featured Image */}
-        {article.attributes.featuredImage?.data && (
+        {attributes.featuredImage?.data?.attributes?.url && (
           <div className="aspect-video bg-muted relative overflow-hidden rounded-lg mb-12">
             <img
-              src={getStrapiImageUrl(article.attributes.featuredImage.data.attributes.url)}
-              alt={article.attributes.featuredImage.data.attributes.alternativeText || article.attributes.title}
+              src={getStrapiImageUrl(attributes.featuredImage.data.attributes.url)}
+              alt={attributes.featuredImage.data.attributes.alternativeText || attributes.title}
               className="w-full h-full object-cover"
             />
           </div>
         )}
 
         {/* Article Content */}
-        {article.attributes.content && (
+        {attributes.content && (
           <div 
             className="prose prose-lg max-w-none"
-            dangerouslySetInnerHTML={{ __html: article.attributes.content }}
+            dangerouslySetInnerHTML={{ __html: attributes.content }}
           />
         )}
-        {!article.attributes.content && article.attributes.description && (
+        {!attributes.content && attributes.description && (
           <div className="prose prose-lg max-w-none">
-            <p>{article.attributes.description}</p>
+            <p>{attributes.description}</p>
           </div>
         )}
 
