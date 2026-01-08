@@ -7,8 +7,6 @@ import type {
   GHLOpportunity,
   GHLAPIResponse,
 } from './types';
-import fs from 'fs';
-import path from 'path';
 
 /**
  * GoHighLevel API Client
@@ -276,39 +274,12 @@ export class GHLClient {
 }
 
 /**
- * Load GHL credentials from auth secrets file
- */
-function loadGHLCredentials(): { apiKey: string; locationId: string } {
-  try {
-    const authSecretsPath = path.join('/home/ubuntu/.config/abacusai_auth_secrets.json');
-    
-    if (fs.existsSync(authSecretsPath)) {
-      const authSecrets = JSON.parse(fs.readFileSync(authSecretsPath, 'utf-8'));
-      const ghlSecrets = authSecrets.gohighlevel?.secrets;
-      
-      if (ghlSecrets?.ghl_api_key?.value && ghlSecrets?.ghl_location_id?.value) {
-        return {
-          apiKey: ghlSecrets.ghl_api_key.value,
-          locationId: ghlSecrets.ghl_location_id.value,
-        };
-      }
-    }
-  } catch (error) {
-    console.error('Error loading GHL credentials:', error);
-  }
-
-  // Fallback to environment variables
-  return {
-    apiKey: process.env.GHL_API_KEY || '',
-    locationId: process.env.GHL_LOCATION_ID || '',
-  };
-}
-
-/**
  * Helper function to get GHL client instance
+ * Loads credentials from environment variables
  */
 export function getGHLClient(): GHLClient {
-  const { apiKey, locationId } = loadGHLCredentials();
+  const apiKey = process.env.GHL_API_KEY || '';
+  const locationId = process.env.GHL_LOCATION_ID || '';
 
   if (!apiKey || !locationId) {
     console.warn('⚠️ GHL API credentials not configured. Forms will not be submitted to GHL.');
